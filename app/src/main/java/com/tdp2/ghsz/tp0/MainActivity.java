@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
     public static final int SELECT_CITY = 100;
+    private City city = City.getVoidCity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,12 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SELECT_CITY:
-                // TODO : HACER ALGO CON LA CIUDAD SELECCIONADA COMO OBTENER EL FORECAST O MODIFICAR ICONOS O LO QUE SEA
-                City city = (City) data.getSerializableExtra(CityListActivity.CITY);
+                city = data == null ? city : (City) data.getSerializableExtra(CityListActivity.CITY);
+                reload();
         }
+    }
+
+    private void reload() {
+        // TODO : HACER ALGO CON LA CIUDAD SELECCIONADA COMO OBTENER EL FORECAST O MODIFICAR ICONOS O LO QUE SEA
     }
 }

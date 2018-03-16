@@ -18,20 +18,22 @@ import java.util.stream.Collectors;
 public class CityListActivity extends ListActivity {
     public static String CITY = "CITY";
     private static boolean citiesLoaded = false;
-    private static List<City> cities;
+    private static City[] cityArr = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* Dado que probablemente el listado de ciudades sea muy grande */
         if (!citiesLoaded) {
-            cities = new CityLoader().getCities();
+            List<City> cities = new CityLoader().getCities();
             cities = cities == null ? new ArrayList<>() : cities;
-            citiesLoaded = cities.size() > 0;
+            cityArr = cities.toArray(new City[]{});
+            citiesLoaded = cityArr.length > 0;
         }
 
 //        String[] values = cities.stream().map(City::getName).collect(Collectors.toList()).toArray(new String[]{});
-        ArrayAdapter<City> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities.toArray(new City[]{}));
+        ArrayAdapter<City> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cityArr);
         setListAdapter(adapter);
     }
 
