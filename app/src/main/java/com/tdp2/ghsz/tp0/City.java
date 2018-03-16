@@ -7,6 +7,10 @@ public class City implements Serializable {
     private final String name;
     private final String country;
 
+    public static City getVoidCity() {
+        return new City(0, "", "");
+    }
+
     public City(int id, String name, String country) {
         this.id = id;
         this.name = name;
