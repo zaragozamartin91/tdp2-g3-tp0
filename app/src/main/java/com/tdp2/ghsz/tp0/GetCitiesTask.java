@@ -19,7 +19,6 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
     private static final String TAG = GetCitiesTask.class.getName();
     private String srvUrl;
     private Runnable onPreExecute = () -> {};
-    private Procedure<String> onProgressUpdate = s -> {};
     private Procedure<TaskResponse<List<City>>> postExecute;
 
     public GetCitiesTask(String srvUrl, Procedure<TaskResponse<List<City>>> postExecute) {
@@ -27,10 +26,9 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
         this.postExecute = postExecute;
     }
 
-    public GetCitiesTask(String srvUrl, Runnable onPreExecute, Procedure<String> onProgressUpdate, Procedure<TaskResponse<List<City>>> postExecute) {
+    public GetCitiesTask(String srvUrl, Runnable onPreExecute, Procedure<TaskResponse<List<City>>> postExecute) {
         this.srvUrl = srvUrl;
         this.onPreExecute = onPreExecute;
-        this.onProgressUpdate = onProgressUpdate;
         this.postExecute = postExecute;
     }
 
@@ -63,11 +61,6 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
         onPreExecute.run();
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
-        onProgressUpdate.run(values[0]);
-    }
 
     @Override
     protected void onPostExecute(TaskResponse<List<City>> listTaskResponse) {

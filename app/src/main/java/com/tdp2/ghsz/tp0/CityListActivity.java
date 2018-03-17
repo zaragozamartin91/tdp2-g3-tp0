@@ -2,6 +2,7 @@ package com.tdp2.ghsz.tp0;
 
 import android.Manifest;
 import android.app.ListActivity;
+import android.app.MediaRouteActionProvider;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,10 +31,11 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
     private static AtomicBoolean citiesLoaded = new AtomicBoolean(false);
     private static List<City> cities;
     private static int page = 1;
-    private ProgressBar mProgressBar;
+
 
     private ArrayAdapter<City> adapter;
     private String srvUrl;
+    private View progressLayout;
 
 
     @Override
@@ -42,13 +44,18 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
         setContentView(R.layout.activity_city_list);
         srvUrl = getString(R.string.srv_base_url);
 
-//        mProgressBar = new ProgressBar(this);
-//        mProgressBar.setIndeterminate(true);
-//        mProgressBar.setMax(100);
-//        mProgressBar.setProgress(1);
-
+        progressLayout = findViewById(R.id.city_list_progress_layout);
+        hideProgress();
 
         checkPermissions();
+    }
+
+    private void showProgress() {
+        progressLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        progressLayout.setVisibility(View.GONE);
     }
 
     private void checkPermissions() {
@@ -78,7 +85,9 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
         if (citiesLoaded.get()) {
             adapter.addAll(cities);
         } else {
-            new GetCitiesTask(srvUrl,
+            new GetCitiesTask(
+                    srvUrl,
+                    this::showProgress,
                     response -> {
                         if (response.success) {
                             cities = new ArrayList<>(response.data);
@@ -86,7 +95,9 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
                             adapter.addAll(cities);
                         } else {
                             Toast.makeText(this, R.string.srv_conn_err, Toast.LENGTH_SHORT).show();
+                            finishFail();
                         }
+                        hideProgress();
                     }).execute(page);
         }
     }
@@ -137,11 +148,15 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
     }
 
     private void onBottomScrollReached() {
-        new GetCitiesTask(srvUrl, response -> {
-            if (response.success) {
-                cities.addAll(response.data);
-                adapter.addAll(response.data);
-            } else { Toast.makeText(this, response.msg, Toast.LENGTH_SHORT).show(); }
-        }).execute(++page);
+        new GetCitiesTask(
+                srvUrl,
+                this::showProgress,
+                response -> {
+                    if (response.success) {
+                        cities.addAll(response.data);
+                        adapter.addAll(response.data);
+                    } else { Toast.makeText(this, response.msg, Toast.LENGTH_SHORT).show(); }
+                    hideProgress();
+                }).execute(++page);
     }
 }

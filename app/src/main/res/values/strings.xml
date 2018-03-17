@@ -4,5 +4,6 @@
 
     <string name="srv_base_url">http://192.168.99.1:5000/</string>
     <string name="srv_conn_err">Error al establecer conexión con el servidor</string>
+    <string name="city_list_progress_text">Cargando ciudades...</string>
 
 </resources>
