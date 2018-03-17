@@ -10,4 +10,13 @@ public class TaskResponse<T> {
         this.msg = msg;
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "TaskResponse{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
