@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Tp0</string>
     <string name="action_settings">Settings</string>
+
+    <string name="srv_base_url">http://192.168.99.1:5000/</string>
+    <string name="srv_conn_err">Error al establecer conexión con el servidor</string>
+
 </resources>
