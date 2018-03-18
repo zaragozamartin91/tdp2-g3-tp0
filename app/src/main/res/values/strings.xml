@@ -10,5 +10,8 @@
     <string name="srv_conn_err">Error al establecer conexión con el servidor</string>
     <string name="city_list_progress_text">Cargando ciudades…</string>
     <string name="main_progress_lbl">Obteniendo pronostico</string>
+    <string name="no_info">No se pudo obtener información</string>
+    <string name="unknown_err">Error desconocido</string>
+    <string name="city_get_error">Error al obtener las ciudades</string>
 
 </resources>
