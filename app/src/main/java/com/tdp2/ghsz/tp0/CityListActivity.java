@@ -36,6 +36,7 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
     private ArrayAdapter<City> adapter;
     private String srvUrl;
     private View progressLayout;
+    private AtomicBoolean bottomReached = new AtomicBoolean(false);
 
 
     @Override
@@ -129,7 +130,8 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) { }
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
 
     @Override
     public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -142,21 +144,32 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
         Log.d(TAG, "itemDiff: " + itemDiff);
         if (itemDiff <= 1) {
             Log.d(TAG, "BOTTOM REACHED!");
-            onBottomScrollReached();
+            if (bottomReached.compareAndSet(false, true)) {
+                onBottomScrollReached();
+            }
         }
         Log.d(TAG, "firstVisibleItem: " + firstVisibleItem + ", visibleItemCount: " + visibleItemCount + ", totalItemCount: " + totalItemCount);
     }
 
     private void onBottomScrollReached() {
-        new GetCitiesTask(
-                srvUrl,
-                this::showProgress,
-                response -> {
-                    if (response.success) {
-                        cities.addAll(response.data);
-                        adapter.addAll(response.data);
-                    } else { Toast.makeText(this, response.msg, Toast.LENGTH_SHORT).show(); }
-                    hideProgress();
-                }).execute(++page);
+        try {
+            new GetCitiesTask(
+                    srvUrl,
+                    this::showProgress,
+                    response -> {
+                        if (response.success) {
+                            cities.addAll(response.data);
+                            adapter.addAll(response.data);
+                            Log.d(TAG , "MORE CITIES LOADED!");
+                        } else {
+                            Toast.makeText(this, response.msg, Toast.LENGTH_SHORT).show();
+                        }
+                        hideProgress();
+                        bottomReached.set(false);
+                    }).execute(++page);
+        } catch (Exception e) {
+            Log.e(TAG , "Error al obtener las ciudades" , e);
+            bottomReached.set(false);
+        }
     }
 }

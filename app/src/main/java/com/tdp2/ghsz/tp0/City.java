@@ -14,6 +14,10 @@ public class City implements Serializable {
         return VOID_CITY;
     }
 
+    public static City getBuenosAires() {
+        return new City(3435907 , "Provincia de Buenos Aires" , "AR");
+    }
+
     public City(int id) { this.id = id; }
 
     public City(int id, String name, String country) {
