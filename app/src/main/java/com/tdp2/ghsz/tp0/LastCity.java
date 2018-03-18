@@ -1,6 +1,7 @@
 package com.tdp2.ghsz.tp0;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 public class LastCity {
@@ -10,7 +11,7 @@ public class LastCity {
     SharedPreferences prefs;
 
     public LastCity(Activity activity) {
-        prefs = activity.getPreferences(Activity.MODE_PRIVATE);
+        prefs = activity.getSharedPreferences("LAST_CITY", Context.MODE_PRIVATE);
     }
 
     // Si no se eligio ninguna ciudad, por defecto toma a buenos aires
