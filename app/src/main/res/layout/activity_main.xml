@@ -23,15 +23,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No hay ciudad seleccionada"
-                android:textSize="20sp"/>
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/select_city_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="8dp"
-                android:background="@android:drawable/ic_menu_mylocation"
+                android:layout_marginRight="16dp"
+                android:alpha="1"
+                android:background="@drawable/ic_gps_not_fixed_white_18dp"
                 android:onClick="selectCity" />
 
         </android.support.v7.widget.Toolbar>
