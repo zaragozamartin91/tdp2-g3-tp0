@@ -35,14 +35,17 @@ public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
 
         switch (position) {
             case 0:
-                dateText.setText("hoy");
+                dateText.setText("Hoy");
                 break;
             case 1:
-                dateText.setText("manana");
+                dateText.setText("Mañana");
                 break;
             default:
                 org.joda.time.LocalDate localDate = org.joda.time.LocalDate.now().plusDays(position);
-                String text = localDate.getDayOfMonth() + "/" + localDate.getMonthOfYear() + "/" + localDate.getYear();
+                String text = getNameOfDay(localDate.getDayOfWeek()) + ", "
+                        + "  " + localDate.getDayOfMonth() + "/"
+                        + localDate.getMonthOfYear();
+                /* + "/" + localDate.getYear();*/
                 dateText.setText(text);
         }
 
@@ -66,5 +69,9 @@ public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
 
 
         return rowView;
+    }
+    private String getNameOfDay(int dayOfWeek){
+        String[] days = new String[] { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
+        return days[dayOfWeek];
     }
 }

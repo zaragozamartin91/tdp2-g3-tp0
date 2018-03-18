@@ -2,7 +2,9 @@
     <string name="app_name">Tp0</string>
     <string name="action_settings">Settings</string>
 
-    <string name="srv_base_url">http://192.168.1.112:5000/</string>
+    <!--string name="srv_base_url">http://192.168.1.112:5000/</string-->
+    <string name="srv_base_url">http://172.25.188.209:5000/</string>
+
     <string name="srv_conn_err">Error al establecer conexión con el servidor</string>
     <string name="city_list_progress_text">Cargando ciudades…</string>
     <string name="main_progress_lbl">Obteniendo pronostico</string>
