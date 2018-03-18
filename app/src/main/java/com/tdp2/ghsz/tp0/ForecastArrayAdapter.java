@@ -35,10 +35,10 @@ public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
 
         switch (position) {
             case 0:
-                dateText.setText("Hoy");
+                dateText.setText(R.string.today);
                 break;
             case 1:
-                dateText.setText("Mañana");
+                dateText.setText(R.string.tomorrow);
                 break;
             default:
                 org.joda.time.LocalDate localDate = org.joda.time.LocalDate.now().plusDays(position);
@@ -49,9 +49,10 @@ public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
                 dateText.setText(text);
         }
 
-        double daytemp = DoubleRounder.round(forecast.getDay().temp, 1);
+        int significantFigures = 3;
+        double daytemp = DoubleRounder.round(forecast.getDay().temp, significantFigures);
         dayText.setText(daytemp + "°C");
-        double nighttemp = DoubleRounder.round(forecast.getNight().temp, 1);
+        double nighttemp = DoubleRounder.round(forecast.getNight().temp, significantFigures);
         nightText.setText(nighttemp + "°C");
         // Change the icon for Windows and iPhone
 

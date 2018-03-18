@@ -13,5 +13,7 @@
     <string name="no_info">No se pudo obtener información</string>
     <string name="unknown_err">Error desconocido</string>
     <string name="city_get_error">Error al obtener las ciudades</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
 
 </resources>

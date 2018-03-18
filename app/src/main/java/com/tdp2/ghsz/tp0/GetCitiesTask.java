@@ -22,16 +22,25 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
     private String srvUrl;
     private Runnable onPreExecute = () -> {};
     private Procedure<TaskResponse<List<City>>> postExecute;
+    private final Retrofit retrofit;
 
-    public GetCitiesTask(String srvUrl, Procedure<TaskResponse<List<City>>> postExecute) {
-        this.srvUrl = srvUrl;
-        this.postExecute = postExecute;
-    }
 
     public GetCitiesTask(String srvUrl, Runnable onPreExecute, Procedure<TaskResponse<List<City>>> postExecute) {
         this.srvUrl = srvUrl;
         this.onPreExecute = onPreExecute;
         this.postExecute = postExecute;
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(srvUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    public GetCitiesTask(String srvUrl, Runnable onPreExecute, Procedure<TaskResponse<List<City>>> postExecute, Retrofit retrofit) {
+        this.srvUrl = srvUrl;
+        this.onPreExecute = onPreExecute;
+        this.postExecute = postExecute;
+        this.retrofit = retrofit;
     }
 
     @Override
@@ -39,11 +48,6 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
         int page = integers[0];
 
         publishProgress("Buscando ciudades");
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(srvUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         GetCitiesService service = retrofit.create(GetCitiesService.class);
         Call<List<City>> getCitiesCall = service.getCities(page);
