@@ -18,6 +18,13 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
+            <TextView
+                android:id="@+id/city_title_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No hay ciudad seleccionada"
+                android:textSize="20sp"/>
+
             <ImageButton
                 android:id="@+id/select_city_btn"
                 android:layout_width="wrap_content"
@@ -39,6 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_refresh" />
 
 </android.support.design.widget.CoordinatorLayout>

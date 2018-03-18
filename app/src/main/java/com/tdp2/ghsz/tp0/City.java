@@ -3,13 +3,18 @@ package com.tdp2.ghsz.tp0;
 import java.io.Serializable;
 
 public class City implements Serializable {
-    private final int id;
-    private final String name;
-    private final String country;
+    public static final City VOID_CITY = new City(0, "", "");
+    private int id;
+    private String name = "VOID";
+    private String country = "VOID";
+
+    public boolean isVoid() { return this == VOID_CITY; }
 
     public static City getVoidCity() {
-        return new City(0, "", "");
+        return VOID_CITY;
     }
+
+    public City(int id) { this.id = id; }
 
     public City(int id, String name, String country) {
         this.id = id;
@@ -31,7 +36,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return name + ", " + country;
     }
 
     @Override

@@ -11,12 +11,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static final int SELECT_CITY = 100;
     private static final String TAG = MainActivity.class.getName();
-    private City city = City.getVoidCity();
+    private City city;
+    private ListView listView;
+    private TextView cityTitleLbl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +28,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        cityTitleLbl = findViewById(R.id.city_title_lbl);
+        listView = findViewById(R.id.listview);
+        city = new LastCity(this).getCity();
+
+        if (!city.isVoid()) { setCityTitle(); }
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            new GetForecastTask(getString(R.string.srv_base_url), () -> {}, res -> {
-                Log.d(TAG, "" + res.data);
-            }).execute(city);
-        });
+        fab.setOnClickListener((View view) -> getForecast());
+    }
+
+    private void setCityTitle() {
+        cityTitleLbl.setText(city.toString());
+    }
+
+    private void getForecast() {
+        new GetForecastTask(getString(R.string.srv_base_url), () -> {}, res -> {
+            if (res.success) {
+                Forecast[] values = res.data.getForecast();
+                ForecastArrayAdapter forecastArrayAdapter = new ForecastArrayAdapter(this, values);
+                listView.setAdapter(forecastArrayAdapter);
+            } else {
+                Toast.makeText(this, "Error al obtener el pronostico", Toast.LENGTH_SHORT).show();
+            }
+        }).execute(city);
     }
 
     public void selectCity(View view) {
@@ -43,12 +66,14 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SELECT_CITY:
-                city = data == null ? city : (City) data.getSerializableExtra(CityListActivity.CITY);
-                reload();
+                if (data != null) {
+                    City selectedCity = (City) data.getSerializableExtra(CityListActivity.CITY);
+                    if (!city.equals(selectedCity)) {
+                        city = selectedCity;
+                        setCityTitle();
+                        getForecast();
+                    }
+                }
         }
-    }
-
-    private void reload() {
-        // TODO : HACER ALGO CON LA CIUDAD SELECCIONADA COMO OBTENER EL FORECAST O MODIFICAR ICONOS O LO QUE SEA
     }
 }
