@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int SELECT_CITY = 100;
     private static final String TAG = MainActivity.class.getName();
     public static final int PERM_REQ_CODE = 200;
+    public static final int SUCC_CODE = 200;
     private City city;
     private ListView listView;
     private TextView cityTitleLbl;
@@ -91,14 +92,30 @@ public class MainActivity extends AppCompatActivity {
     private void getForecast() {
         new GetForecastTask(getString(R.string.srv_base_url), this::showProgress, res -> {
             if (res.success) {
+                int code = res.data.getCode();
+                if (code != SUCC_CODE) {
+                    int msgId = getMsgId(code);
+                    Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Forecast[] values = res.data.getForecast();
                 ForecastArrayAdapter forecastArrayAdapter = new ForecastArrayAdapter(this, values);
                 listView.setAdapter(forecastArrayAdapter);
             } else {
-                Toast.makeText(this, "Error al obtener el pronostico", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.srv_conn_err), Toast.LENGTH_SHORT).show();
             }
             hideProgress();
         }).execute(city);
+    }
+
+    private int getMsgId(int code) {
+        switch (code) {
+            case 500:
+                return R.string.no_info;
+            default:
+                return R.string.unknown_err;
+        }
     }
 
     public void selectCity(View view) {

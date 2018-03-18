@@ -17,6 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<City>>> {
     private static final String TAG = GetCitiesTask.class.getName();
+    public static final int SUCC_CODE = 200;
+    public static final int FAIL_CODE = 999;
     private String srvUrl;
     private Runnable onPreExecute = () -> {};
     private Procedure<TaskResponse<List<City>>> postExecute;
@@ -48,10 +50,10 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
         try {
             Response<List<City>> response = getCitiesCall.execute();
             List<City> cities = response.body();
-            return new TaskResponse<>(true, "", cities);
+            return new TaskResponse<>(true, SUCC_CODE, cities);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
-            return new TaskResponse<>(false, e.getMessage(), new ArrayList<>());
+            return new TaskResponse<>(false, FAIL_CODE, new ArrayList<>());
         }
     }
 
