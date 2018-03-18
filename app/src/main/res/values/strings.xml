@@ -4,6 +4,8 @@
 
     <!--string name="srv_base_url">http://192.168.1.112:5000/</string-->
     <string name="srv_base_url">http://192.168.0.138:5000/</string>
+    <string name="cities_srv_base_url">http://192.168.0.138:5000/</string>
+    <string name="forecast_srv_base_url">https://tdp2-tp0.herokuapp.com/</string>
 
     <string name="srv_conn_err">Error al establecer conexión con el servidor</string>
     <string name="city_list_progress_text">Cargando ciudades…</string>

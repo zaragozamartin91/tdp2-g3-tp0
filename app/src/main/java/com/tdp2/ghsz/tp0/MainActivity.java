@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -38,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
         city = new LastCity(this).getCity();
         city = city.isVoid() ? City.getBuenosAires() : city;
 
-
         updateCityTitle();
-        getForecast();
-
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener((View view) -> getForecast());
@@ -56,6 +54,26 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.INTERNET}, PERM_REQ_CODE);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERM_REQ_CODE:
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    run();
+                } else {
+                    Toast.makeText(this, "Se negaron los permisos requeridos", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+        }
+    }
+
+    private void run() {
+        getForecast();
     }
 
     private void showProgress() {
