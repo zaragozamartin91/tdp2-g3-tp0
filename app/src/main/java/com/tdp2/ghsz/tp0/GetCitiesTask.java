@@ -47,8 +47,6 @@ public class GetCitiesTask extends AsyncTask<Integer, String, TaskResponse<List<
     protected TaskResponse<List<City>> doInBackground(Integer... integers) {
         int page = integers[0];
 
-        publishProgress("Buscando ciudades");
-
         GetCitiesService service = retrofit.create(GetCitiesService.class);
         Call<List<City>> getCitiesCall = service.getCities(page);
         try {

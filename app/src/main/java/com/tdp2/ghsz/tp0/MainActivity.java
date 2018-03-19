@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) ==
+                        PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.INTERNET}, PERM_REQ_CODE);
@@ -58,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERM_REQ_CODE:
@@ -67,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     run();
                 } else {
-                    Toast.makeText(this, "Se negaron los permisos requeridos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Se negaron los permisos requeridos", Toast
+                            .LENGTH_SHORT).show();
                     finish();
                 }
         }
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         switch (code) {
             case 500:
                 return R.string.no_info;
+            case 400:
+                return R.string.python_conn_problem;
             default:
                 return R.string.unknown_err;
         }

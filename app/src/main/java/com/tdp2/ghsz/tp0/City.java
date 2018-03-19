@@ -15,7 +15,7 @@ public class City implements Serializable {
     }
 
     public static City getBuenosAires() {
-        return new City(3435907 , "Provincia de Buenos Aires" , "AR");
+        return new City(3433955 , "Ciudad Autonoma de Buenos Aires" , "AR");
     }
 
     public City(int id) { this.id = id; }
