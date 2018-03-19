@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         hideProgress();
         city = new LastCity(this).getCity();
         city = city.isVoid() ? City.getBuenosAires() : city;
+//        city = city.isVoid() ? City.getNY() : city;
+//        city = city.isVoid() ? City.getLondon() : city;
 
         updateCityTitle();
 
@@ -95,22 +97,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecast() {
         new GetForecastTask(getString(R.string.srv_base_url), this::showProgress, res -> {
-            if (res.success) {
-                int code = res.data.getCode();
-                if (code != SUCC_CODE) {
-                    int msgId = getMsgId(code);
-                    Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            try {
+                if (res.success) {
+                    ForecastResponse data = res.data;
+                    if (data == null) {
+                        Toast.makeText(this, getString(R.string.no_info), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    int code = data.getCode();
+                    if (code != SUCC_CODE) {
+                        int msgId = getMsgId(code);
+                        Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                Forecast[] values = res.data.getForecast();
-                ForecastArrayAdapter forecastArrayAdapter = new ForecastArrayAdapter(this, values);
-                listView.setAdapter(forecastArrayAdapter);
-            } else {
-                Toast.makeText(this, getString(R.string.srv_conn_err), Toast.LENGTH_SHORT).show();
+                    Forecast[] values = res.data.getForecast();
+                    ForecastArrayAdapter forecastArrayAdapter = new ForecastArrayAdapter(this, values);
+                    listView.setAdapter(forecastArrayAdapter);
+                } else {
+                    Toast.makeText(this, getString(R.string.srv_conn_err), Toast.LENGTH_SHORT).show();
+                }
+            } finally {
+                hideProgress();
             }
-            hideProgress();
         }).execute(city);
+
     }
 
     private int getMsgId(int code) {

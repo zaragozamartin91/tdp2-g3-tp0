@@ -1,6 +1,7 @@
 package com.tdp2.ghsz.tp0;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.tdp2.ghsz.tp0.util.DoubleRounder;
 
 public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
+    private static final String TAG = ForecastArrayAdapter.class.getName();
     private final Context context;
     private final Forecast[] values;
 
@@ -57,15 +59,17 @@ public class ForecastArrayAdapter extends ArrayAdapter<Forecast> {
         // Change the icon for Windows and iPhone
 
         String dayWeather = "i" + forecast.getDay().weather.toLowerCase();
+        Log.d(TAG , "dayWeather: " + dayWeather);
 //        String dayWeather = "ic_wi_day_" + forecast.day.weather.toLowerCase();
         int dayIconId = context.getResources().getIdentifier(dayWeather, "drawable", context.getApplicationInfo().packageName);
-        dayIconId = dayIconId == 0 ? R.drawable.ic_wi_day_sunny : dayIconId;
+        dayIconId = dayIconId == 0 ? R.drawable.i01d : dayIconId;
         dayIcon.setImageResource(dayIconId);
 
         String nightWeather = "i" + forecast.getNight().weather.toLowerCase();
+        Log.d(TAG , "nightWeather: " + nightWeather);
 //        String nightWeather = "ic_wi_moon_" + forecast.night.weather.toLowerCase();
         int nightIconId = context.getResources().getIdentifier(nightWeather, "drawable", context.getApplicationInfo().packageName);
-        nightIconId = nightIconId == 0 ? R.drawable.ic_wi_moon_alt_new : nightIconId;
+        nightIconId = nightIconId == 0 ? R.drawable.i01n : nightIconId;
         nightIcon.setImageResource(nightIconId);
 
 

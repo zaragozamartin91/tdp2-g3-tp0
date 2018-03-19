@@ -2,11 +2,9 @@
     <string name="app_name">Tp0</string>
     <string name="action_settings">Settings</string>
 
-    <!--string name="srv_base_url">http://192.168.1.112:5000/</string-->
-    <string name="srv_base_url">http://192.168.0.105:5000/</string>
-    <!-- <string name="srv_base_url">https://tdp2-tp0.herokuapp.com/</string> -->
-    <string name="cities_srv_base_url">http://192.168.0.105:5000/</string>
-    <string name="forecast_srv_base_url">https://192.168.0.105:5000/</string>
+    <!--<string name="srv_base_url">http://192.168.1.112:5000/</string>-->
+    <!--<string name="srv_base_url">http://192.168.0.105:5000/</string>-->
+     <string name="srv_base_url">https://tdp2-tp0.herokuapp.com/</string>
 
     <string name="srv_conn_err">No fue posible conectarse al servidor, por favor reintente más tarde</string>
     <string name="python_conn_problem">En este momento no es posible obtener la información. Reintente en unos minutos</string>

@@ -14,9 +14,11 @@ public class City implements Serializable {
         return VOID_CITY;
     }
 
-    public static City getBuenosAires() {
-        return new City(3433955 , "Ciudad Autonoma de Buenos Aires" , "AR");
-    }
+    public static City getBuenosAires() { return new City(3433955, "Ciudad Autonoma de Buenos Aires", "AR"); }
+
+    public static City getLondon() { return new City(2643743, "London", "UK"); }
+
+    public static City getNY() { return new City(5128638, "New york", "US"); }
 
     public City(int id) { this.id = id; }
 

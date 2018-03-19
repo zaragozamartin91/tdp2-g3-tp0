@@ -157,24 +157,28 @@ public class CityListActivity extends ListActivity implements AbsListView.OnScro
                     srvUrl,
                     this::showProgress,
                     response -> {
-                        if (response.success) {
-                            if (response.data == null || response.data.isEmpty()) {
-                                Toast.makeText(this, getString(R.string.no_info), Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                        try {
+                            if (response.success) {
+                                if (response.data == null || response.data.isEmpty()) {
+                                    Toast.makeText(this, getString(R.string.no_info), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
 
-                            cities.addAll(response.data);
-                            adapter.addAll(response.data);
-                            Log.d(TAG, "MORE CITIES LOADED!");
-                        } else {
-                            Toast.makeText(this, getString(R.string.srv_conn_err), Toast.LENGTH_SHORT).show();
+                                cities.addAll(response.data);
+                                adapter.addAll(response.data);
+                                Log.d(TAG, "MORE CITIES LOADED!");
+                            } else {
+                                Toast.makeText(this, getString(R.string.srv_conn_err), Toast.LENGTH_SHORT).show();
+                            }
+                            bottomReached.set(false);
+                        } finally {
+                            hideProgress();
                         }
-                        hideProgress();
-                        bottomReached.set(false);
                     }).execute(++page);
         } catch (Exception e) {
             Log.e(TAG, getString(R.string.city_get_error), e);
             bottomReached.set(false);
+            hideProgress();
         }
     }
 }
